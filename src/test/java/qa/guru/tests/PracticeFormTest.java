@@ -1,9 +1,7 @@
 package qa.guru.tests;
 
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.Story;
-import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import qa.guru.config.Environment;
@@ -13,7 +11,6 @@ import qa.guru.helpers.BaseTest;
 import qa.guru.pages.PracticeFormPage;
 import qa.guru.pages.components.ResultTableComponent;
 
-import static com.codeborne.selenide.Selenide.executeJavaScript;
 import static io.qameta.allure.Allure.step;
 import static qa.guru.helpers.CustomConditions.invalid;
 import static qa.guru.helpers.CustomConditions.valid;

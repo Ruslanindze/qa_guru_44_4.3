@@ -1,6 +1,9 @@
 package qa.guru.tests;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.Story;
+import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import qa.guru.config.Environment;
@@ -10,10 +13,12 @@ import qa.guru.helpers.BaseTest;
 import qa.guru.pages.PracticeFormPage;
 import qa.guru.pages.components.ResultTableComponent;
 
+import static com.codeborne.selenide.Selenide.executeJavaScript;
+import static io.qameta.allure.Allure.step;
 import static qa.guru.helpers.CustomConditions.invalid;
 import static qa.guru.helpers.CustomConditions.valid;
 
-
+@Story("Registration form")
 public class PracticeFormTest extends BaseTest {
     private final Environment env = Environment.DEMOQA;
     private final PracticeFormPage practiceFormPage = new PracticeFormPage();
@@ -22,31 +27,44 @@ public class PracticeFormTest extends BaseTest {
     @Test
     @DisplayName("PF-CASE-001. Успешное заполнение всех полей формы регистрации")
     void shouldRegisterUserWhenAllFieldsAreValid() {
+
         // Given
         UserDto userDto = TestData.getRegistrationUser();
 
         // When
-        practiceFormPage
-                .openPage(env)
-                .registerAs(userDto)
-                .submit();
+        step("Open registration page", () -> {
+            practiceFormPage
+                    .openPage(env);
+        });
+        step("Registration user", () -> {
+            practiceFormPage
+                    .registerAs(userDto)
+                    .submit();
+        });
 
         // Then
-        String columnName = "Values";
-        ResultTableComponent resultTable = practiceFormPage.getResultTableComponent();
-        String expectedDateOfBirth = "%02d %s,%s".formatted(
-                Integer.parseInt(userDto.getBirthDay()), userDto.getBirthMonth(), userDto.getBirthYear());
+        step("Checking the result in the table", () -> {
+            String columnName = "Values";
+            ResultTableComponent resultTable = practiceFormPage.getResultTableComponent();
+            String expectedDateOfBirth = "%02d %s,%s".formatted(
+                    Integer.parseInt(userDto.getBirthDay()), userDto.getBirthMonth(), userDto.getBirthYear());
 
-        resultTable.shouldHaveCellText("Student Name", columnName, userDto.getFullName());
-        resultTable.shouldHaveCellText("Student Email", columnName, userDto.getEmail());
-        resultTable.shouldHaveCellText("Gender", columnName, userDto.getGender());
-        resultTable.shouldHaveCellText("Mobile", columnName, userDto.getPhoneNumber());
-        resultTable.shouldHaveCellText("Date of Birth", columnName, expectedDateOfBirth);
-        resultTable.shouldHaveCellText("Subjects", columnName, String.join(", ", userDto.getSubjects()));
-        resultTable.shouldHaveCellText("Hobbies", columnName, String.join(", ", userDto.getHobbies()));
-        resultTable.shouldHaveCellText("Picture", columnName, userDto.getPicture());
-        resultTable.shouldHaveCellText("Address", columnName, userDto.getCurrentAddress());
-        resultTable.shouldHaveCellText("State and City", columnName, userDto.getStateAndCity());
+            step("The results table appeared", () ->
+                    resultTable.getTableResult().should(Condition.appear));
+
+            step("Checking results", () -> {
+                resultTable.shouldHaveCellText("Student Name", columnName, userDto.getFullName());
+                resultTable.shouldHaveCellText("Student Email", columnName, userDto.getEmail());
+                resultTable.shouldHaveCellText("Gender", columnName, userDto.getGender());
+                resultTable.shouldHaveCellText("Mobile", columnName, userDto.getPhoneNumber());
+                resultTable.shouldHaveCellText("Date of Birth", columnName, expectedDateOfBirth);
+                resultTable.shouldHaveCellText("Subjects", columnName, String.join(", ", userDto.getSubjects()));
+                resultTable.shouldHaveCellText("Hobbies", columnName, String.join(", ", userDto.getHobbies()));
+                resultTable.shouldHaveCellText("Picture", columnName, userDto.getPicture());
+                resultTable.shouldHaveCellText("Address", columnName, userDto.getCurrentAddress());
+                resultTable.shouldHaveCellText("State and City", columnName, userDto.getStateAndCity());
+            });
+        });
     }
 
     @Test

@@ -1,6 +1,7 @@
 package qa.guru.pages;
 
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 import lombok.Getter;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -13,8 +14,7 @@ import java.util.List;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
 
 
 @Getter
@@ -41,16 +41,20 @@ public class PracticeFormPage {
 
     private final SelenideElement buttonSubmit = $("button#submit");
 
+    @Step("Open registration page {env}" + PAGE_URL)
     public PracticeFormPage openPage(Environment env) {
         open(env.getBaseUrl() + PAGE_URL);
+        executeJavaScript("document.querySelectorAll('#fixedban, footer, iframe').forEach(function(el){el.remove();});");
         return this;
     }
 
+    @Step("Type first name \"{firstName}\"")
     public PracticeFormPage setFirstName(String firstName) {
         this.firstName.setValue(firstName);
         return this;
     }
 
+    @Step("Type last name \"{lastName}\"")
     public PracticeFormPage setLastName(String lastName) {
         this.lastName.setValue(lastName);
         return this;

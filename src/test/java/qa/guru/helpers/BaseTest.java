@@ -1,8 +1,6 @@
 package qa.guru.helpers;
 
 import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.aeonbits.owner.ConfigFactory;
@@ -41,6 +39,13 @@ public abstract class BaseTest {
         Configuration.timeout = 15000;
         Configuration.remote = testConfig.urlRemote();
 
+        // Если full, то по-умолчанию full hd
+        if ("FULL".equalsIgnoreCase(testConfig.browserSize())) {
+            Configuration.browserSize = "1920x1080";
+        } else {
+            Configuration.browserSize = testConfig.browserSize();
+        }
+
         // Добавление записи видео
         if (testConfig.addVideo()) {
             MutableCapabilities options = new MutableCapabilities();
@@ -50,17 +55,6 @@ public abstract class BaseTest {
                     "enableVideo", true
             ));
             Configuration.browserCapabilities = options;
-        }
-    }
-
-    @BeforeEach
-    void setupTest() {
-        // Если full, то на весь экран любого размера
-        if ("FULL".equalsIgnoreCase(testConfig.browserSize())) {
-            Selenide.open();
-            WebDriverRunner.getWebDriver().manage().window().maximize();
-        } else {
-            Configuration.browserSize = testConfig.browserSize();
         }
     }
 

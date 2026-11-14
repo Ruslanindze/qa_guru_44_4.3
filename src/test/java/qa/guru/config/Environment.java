@@ -8,7 +8,7 @@ public class Environment {
     public static final String URL_APP = System.getProperty("URL_APP", "https://demoqa.com");
 
     // Remote configs
-    public static final String REMOTE_URL = System.getProperty("REMOTE_URL");
+    public static final String URL_REMOTE = System.getProperty("URL_REMOTE");
 
     // Browser configs
     public static final Map<String, List<String>> MAP_BROWSER_VERSIONS = Map.of(

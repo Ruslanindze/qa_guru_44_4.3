@@ -36,7 +36,7 @@ public abstract class BaseTest {
         Configuration.browserVersion = Environment.BROWSER_VERSION;
         Configuration.pageLoadStrategy = "eager";
         Configuration.timeout = 15000;
-        Configuration.remote = Environment.REMOTE_URL;
+        Configuration.remote = Environment.URL_REMOTE;
 
         // Если full, то на весь экран любого размера
         if (Environment.BROWSER_SIZE.equalsIgnoreCase("full")) {

@@ -1,6 +1,7 @@
 package qa.guru.pages;
 
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 import lombok.Getter;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -13,8 +14,7 @@ import java.util.List;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
 
 
 @Getter
@@ -41,42 +41,51 @@ public class PracticeFormPage {
 
     private final SelenideElement buttonSubmit = $("button#submit");
 
+    @Step("Open registration page {env}" + PAGE_URL)
     public PracticeFormPage openPage(Environment env) {
         open(env.getBaseUrl() + PAGE_URL);
+        executeJavaScript("document.querySelectorAll('#fixedban, footer, iframe').forEach(function(el){el.remove();});");
         return this;
     }
 
+    @Step("Type first name \"{firstName}\"")
     public PracticeFormPage setFirstName(String firstName) {
         this.firstName.setValue(firstName);
         return this;
     }
 
+    @Step("Type last name \"{lastName}\"")
     public PracticeFormPage setLastName(String lastName) {
         this.lastName.setValue(lastName);
         return this;
     }
 
+    @Step("Type email \"{email}\"")
     public PracticeFormPage setUserEmail(String email) {
         this.userEmail.setValue(email);
         return this;
     }
 
+    @Step("Type gender \"{gender}\"")
     public PracticeFormPage setUserGender(String gender) {
         this.userGender.$(byText(gender)).click();
         return this;
     }
 
+    @Step("Type phone user \"{userNumber}\"")
     public PracticeFormPage setUserNumber(String userNumber) {
         this.userNumber.setValue(userNumber);
         return this;
     }
 
+    @Step("Type date of birth \"{day} {month} {year}\"")
     public PracticeFormPage setUserDateOfBirth(String year, String month, String day) {
         dateOfBirthCalendar.click();
         calendarComponent.setDateOfBirth(year, month, day);
         return this;
     }
 
+    @Step("Type subjects \"{subjects}\"")
     public PracticeFormPage setSubjects(List<String> subjects) {
         subjects.forEach(subject -> {
             subjectsInput.setValue(subject).pressEnter();
@@ -84,6 +93,7 @@ public class PracticeFormPage {
         return this;
     }
 
+    @Step("Type hobbies \"{hobbies}\"")
     public PracticeFormPage setHobbies(List<String> hobbies) {
         hobbies.forEach(hobby -> {
             hobbiesInput.$$("label").findBy(text(hobby)).click();
@@ -91,26 +101,31 @@ public class PracticeFormPage {
         return this;
     }
 
+    @Step("Type resourcePath \"{resourcePath}\"")
     public PracticeFormPage uploadPicture(String resourcePath) {
         uploadPicture.uploadFromClasspath(resourcePath);
         return this;
     }
 
+    @Step("Type user address \"{address}\"")
     public PracticeFormPage setUserAddress(String address) {
         this.userAddress.setValue(address);
         return this;
     }
 
+    @Step("Type user state \"{state}\"")
     public PracticeFormPage setUserState(String state) {
         this.userState.setValue(state).pressEnter();
         return this;
     }
 
+    @Step("Type user city \"{city}\"")
     public PracticeFormPage setUserCity(String city) {
         this.userCity.setValue(city).pressEnter();
         return this;
     }
 
+    @Step("Button submit")
     public PracticeFormPage submit() {
         this.buttonSubmit.click();
         return this;
@@ -120,6 +135,7 @@ public class PracticeFormPage {
         return resultTableComponent.getTableResult();
     }
 
+    @Step("Registration user")
     public PracticeFormPage registerAs(UserDto userDto) {
         // Блок дня рождения - все поля должны быть заполнены
         if (StringUtils.isNotBlank(userDto.getBirthYear()) &&

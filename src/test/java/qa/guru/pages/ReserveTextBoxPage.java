@@ -1,6 +1,7 @@
 package qa.guru.pages;
 
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 import lombok.Getter;
 import qa.guru.config.Environment;
 import qa.guru.data.UserTextBoxRecord;
@@ -25,31 +26,37 @@ public class ReserveTextBoxPage {
     private final SelenideElement outputCurrentAddress = outputBlock.$("#currentAddress");
     private final SelenideElement outputPermanentAddress = outputBlock.$("#permanentAddress");
 
+    @Step("Open registration page {env}" + PAGE_URL)
     public ReserveTextBoxPage openPage(Environment env) {
         open(env.getBaseUrl() + PAGE_URL);
         return this;
     }
 
+    @Step("Type full name user \"{fullName}\"")
     public ReserveTextBoxPage typeFullName(String fullName) {
         inputFullName.setValue(fullName);
         return this;
     }
 
+    @Step("Type email \"{email}\"")
     public ReserveTextBoxPage typeEmail(String email) {
         inputEmail.setValue(email);
         return this;
     }
 
+    @Step("Type current address \"{address}\"")
     public ReserveTextBoxPage typeCurrentAddress(String address) {
         inputCurrentAddress.setValue(address);
         return this;
     }
 
+    @Step("Type permanent address \"{address}\"")
     public ReserveTextBoxPage typePermanentAddress(String address) {
         inputPermanentAddress.setValue(address);
         return this;
     }
 
+    @Step("Type user text box")
     public ReserveTextBoxPage typeFromUserTextBox(UserTextBoxRecord userTextBox) {
         typeFullName(userTextBox.fullName());
         typeEmail(userTextBox.email());
@@ -68,6 +75,7 @@ public class ReserveTextBoxPage {
         );
     }
 
+    @Step("Submit box")
     public ReserveTextBoxPage submitBox() {
         buttonSubmit.click();
         return this;

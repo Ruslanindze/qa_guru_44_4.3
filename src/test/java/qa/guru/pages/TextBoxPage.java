@@ -1,6 +1,7 @@
 package qa.guru.pages;
 
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 import lombok.Getter;
 import qa.guru.config.Environment;
 import qa.guru.data.UserTextBoxRecord;
@@ -19,37 +20,43 @@ public class TextBoxPage {
     private final SelenideElement inputPermanentAddress = $("#permanentAddress");
     private final SelenideElement buttonSubmit = $("#submit");
 
-        private final SelenideElement outputBlock = $("#output");
+    private final SelenideElement outputBlock = $("#output");
     private final SelenideElement outputName = outputBlock.$("#name");
     private final SelenideElement outputEmail = outputBlock.$("#email");
     private final SelenideElement outputCurrentAddress = outputBlock.$("#currentAddress");
     private final SelenideElement outputPermanentAddress = outputBlock.$("#permanentAddress");
 
+    @Step("Open registration page {env}" + PAGE_URL)
     public TextBoxPage openPage(Environment env) {
         open(env.getBaseUrl() + PAGE_URL);
         return this;
     }
 
+    @Step("Type full name user \"{fullName}\"")
     public TextBoxPage typeFullName(String fullName) {
         inputFullName.setValue(fullName);
         return this;
     }
 
+    @Step("Type email \"{email}\"")
     public TextBoxPage typeEmail(String email) {
         inputEmail.setValue(email);
         return this;
     }
 
+    @Step("Type current address \"{address}\"")
     public TextBoxPage typeCurrentAddress(String address) {
         inputCurrentAddress.setValue(address);
         return this;
     }
 
+    @Step("Type permanent address \"{address}\"")
     public TextBoxPage typePermanentAddress(String address) {
         inputPermanentAddress.setValue(address);
         return this;
     }
 
+    @Step("Type user text box")
     public TextBoxPage typeFromUserTextBox(UserTextBoxRecord userTextBox) {
         typeFullName(userTextBox.fullName());
         typeEmail(userTextBox.email());
@@ -68,6 +75,7 @@ public class TextBoxPage {
         );
     }
 
+    @Step("Submit box")
     public TextBoxPage submitBox() {
         buttonSubmit.click();
         return this;

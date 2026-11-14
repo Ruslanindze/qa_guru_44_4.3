@@ -18,7 +18,11 @@ import java.util.TimeZone;
 import static com.codeborne.selenide.Selenide.closeWebDriver;
 
 public abstract class BaseTest {
-    protected static final TestConfig testConfig = ConfigFactory.create(TestConfig.class);
+    protected static final TestConfig testConfig = ConfigFactory.create(
+            TestConfig.class,
+            System.getProperties(),
+            System.getenv()
+    );
 
     @BeforeEach
     void addListener() {

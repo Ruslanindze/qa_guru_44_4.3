@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import qa.guru.config.Environment;
 import qa.guru.data.TestData;
 import qa.guru.data.UserDto;
 import qa.guru.helpers.BaseTest;
@@ -32,7 +31,7 @@ public class ReservePracticeFormTest extends BaseTest {
 
         // When
         reservePracticeFormPage
-                .openPage(Environment.URL_APP)
+                .openPage(testConfig.urlApp())
                 .registerAs(userDto)
                 .submit();
 
@@ -56,7 +55,7 @@ public class ReservePracticeFormTest extends BaseTest {
         // When
         // Заполнение обязательных полей
         reservePracticeFormPage
-                .openPage(Environment.URL_APP)
+                .openPage(testConfig.urlApp())
                 .registerAs(userDto);
         // Перезатираем поле и подтверждаем
         SelenideElement field = fieldProvider.apply(reservePracticeFormPage);

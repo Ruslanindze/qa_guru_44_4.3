@@ -4,7 +4,6 @@ import com.codeborne.selenide.Condition;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.aggregator.AggregateWith;
 import org.junit.jupiter.params.provider.CsvFileSource;
-import qa.guru.config.Environment;
 import qa.guru.data.UserTextBoxRecord;
 import qa.guru.helpers.BaseTest;
 import qa.guru.helpers.UserTextBoxAggregator;
@@ -22,7 +21,7 @@ public class TextBoxTest extends BaseTest {
     void shouldSubmitFormWithAllFields(@AggregateWith(UserTextBoxAggregator.class) UserTextBoxRecord userTextBox) {
         // Given and When
         textBoxPage
-                .openPage(Environment.URL_APP)
+                .openPage(testConfig.urlApp())
                 .typeFromUserTextBox(userTextBox)
                 .submitBox();
 
@@ -39,7 +38,7 @@ public class TextBoxTest extends BaseTest {
     void shouldSubmitFormWithOneField(@AggregateWith(UserTextBoxAggregator.class) UserTextBoxRecord userTextBox) {
         // Given and When
         textBoxPage
-                .openPage(Environment.URL_APP)
+                .openPage(testConfig.urlApp())
                 .typeFromUserTextBox(userTextBox)
                 .submitBox();
 
@@ -56,7 +55,7 @@ public class TextBoxTest extends BaseTest {
     void shouldNotSubmitFormWithErrEmail(@AggregateWith(UserTextBoxAggregator.class) UserTextBoxRecord userTextBox) {
         // Given and When
         textBoxPage
-                .openPage(Environment.URL_APP)
+                .openPage(testConfig.urlApp())
                 .typeFromUserTextBox(userTextBox)
                 .submitBox();
 

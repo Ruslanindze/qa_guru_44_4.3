@@ -4,7 +4,6 @@ import com.codeborne.selenide.Condition;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import qa.guru.config.Environment;
 import qa.guru.data.TestData;
 import qa.guru.data.UserDto;
 import qa.guru.helpers.BaseTest;
@@ -30,7 +29,7 @@ public class PracticeFormTest extends BaseTest {
         // When
         step("Open registration page", () -> {
             practiceFormPage
-                    .openPage(Environment.URL_APP);
+                    .openPage(testConfig.urlApp());
         });
         step("Registration user", () -> {
             practiceFormPage
@@ -71,7 +70,7 @@ public class PracticeFormTest extends BaseTest {
 
         // When
         practiceFormPage
-                .openPage(Environment.URL_APP)
+                .openPage(testConfig.urlApp())
                 .registerAs(userDto)
                 .submit();
 
@@ -94,7 +93,7 @@ public class PracticeFormTest extends BaseTest {
 
         // When
         practiceFormPage
-                .openPage(Environment.URL_APP)
+                .openPage(testConfig.urlApp())
                 .registerAs(userDto)
                 .submit();
 
@@ -126,7 +125,7 @@ public class PracticeFormTest extends BaseTest {
 
         // When
         practiceFormPage
-                .openPage(Environment.URL_APP)
+                .openPage(testConfig.urlApp())
                 .registerAs(userDto)
                 .submit();
 
@@ -158,7 +157,7 @@ public class PracticeFormTest extends BaseTest {
 
         // When
         practiceFormPage
-                .openPage(Environment.URL_APP)
+                .openPage(testConfig.urlApp())
                 .registerAs(userDto)
                 .submit();
 
@@ -189,7 +188,7 @@ public class PracticeFormTest extends BaseTest {
 
         // When
         practiceFormPage
-                .openPage(Environment.URL_APP)
+                .openPage(testConfig.urlApp())
                 .registerAs(userDto)
                 .submit();
 
@@ -221,7 +220,7 @@ public class PracticeFormTest extends BaseTest {
 
         // When
         practiceFormPage
-                .openPage(Environment.URL_APP)
+                .openPage(testConfig.urlApp())
                 .registerAs(userDto)
                 .submit();
 

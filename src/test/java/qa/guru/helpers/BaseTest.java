@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.MutableCapabilities;
 import qa.guru.config.Environment;
 
+import java.awt.*;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -33,22 +34,27 @@ public abstract class BaseTest {
         Configuration.headless = Environment.HEADLESS;
         Configuration.browser = Environment.BROWSER;
         Configuration.browserVersion = Environment.BROWSER_VERSION;
-        Configuration.browserSize = Environment.BROWSER_SIZE;
         Configuration.pageLoadStrategy = "eager";
         Configuration.timeout = 15000;
+        Configuration.remote = Environment.REMOTE_URL;
 
-        if (Environment.IS_REMOTE) {
-            Configuration.remote = Environment.REMOTE_URL;
+        // Если full, то на весь экран любого размера
+        if (Environment.BROWSER_SIZE.equalsIgnoreCase("full")) {
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            Configuration.browserSize = screenSize.width + "x" + screenSize.height;
+        } else {
+            Configuration.browserSize = Environment.BROWSER_SIZE;
+        }
 
-            if (Environment.ADD_VIDEO) {
-                MutableCapabilities options = new MutableCapabilities();
-                options.setCapability("se:cdpEnabled", false);
-                options.setCapability("selenoid:options", Map.of(
-                        "enableVNC", true,
-                        "enableVideo", true
-                ));
-                Configuration.browserCapabilities = options;
-            }
+        // Добавление записи видео
+        if (Environment.ADD_VIDEO) {
+            MutableCapabilities options = new MutableCapabilities();
+            options.setCapability("se:cdpEnabled", false);
+            options.setCapability("selenoid:options", Map.of(
+                    "enableVNC", true,
+                    "enableVideo", true
+            ));
+            Configuration.browserCapabilities = options;
         }
     }
 
@@ -57,7 +63,7 @@ public abstract class BaseTest {
         if (addScreenshot) Attach.takeSreenshot("Last screenshot");
         if (addPageSource) Attach.pageSource();
         if (addBrowserLog) Attach.browserConsoleLogs();
-        if (Environment.IS_REMOTE && addVideo) Attach.addVideo();
+        if (addVideo) Attach.addVideo();
 
         closeWebDriver();
     }

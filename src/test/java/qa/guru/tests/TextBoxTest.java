@@ -15,7 +15,6 @@ import static qa.guru.helpers.CustomConditions.invalid;
 
 
 public class TextBoxTest extends BaseTest {
-    private final Environment env = Environment.DEMOQA;
     private final TextBoxPage textBoxPage = new TextBoxPage();
 
     @ParameterizedTest(name = "TB-CASE-001. Заполнены все поля | {0}")
@@ -23,7 +22,7 @@ public class TextBoxTest extends BaseTest {
     void shouldSubmitFormWithAllFields(@AggregateWith(UserTextBoxAggregator.class) UserTextBoxRecord userTextBox) {
         // Given and When
         textBoxPage
-                .openPage(env)
+                .openPage(Environment.URL_APP)
                 .typeFromUserTextBox(userTextBox)
                 .submitBox();
 
@@ -40,7 +39,7 @@ public class TextBoxTest extends BaseTest {
     void shouldSubmitFormWithOneField(@AggregateWith(UserTextBoxAggregator.class) UserTextBoxRecord userTextBox) {
         // Given and When
         textBoxPage
-                .openPage(env)
+                .openPage(Environment.URL_APP)
                 .typeFromUserTextBox(userTextBox)
                 .submitBox();
 
@@ -57,7 +56,7 @@ public class TextBoxTest extends BaseTest {
     void shouldNotSubmitFormWithErrEmail(@AggregateWith(UserTextBoxAggregator.class) UserTextBoxRecord userTextBox) {
         // Given and When
         textBoxPage
-                .openPage(env)
+                .openPage(Environment.URL_APP)
                 .typeFromUserTextBox(userTextBox)
                 .submitBox();
 

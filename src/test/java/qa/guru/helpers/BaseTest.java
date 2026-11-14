@@ -6,7 +6,8 @@ import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.MutableCapabilities;
+import qa.guru.config.Environment;
 
 import java.util.Map;
 import java.util.TimeZone;
@@ -14,6 +15,10 @@ import java.util.TimeZone;
 import static com.codeborne.selenide.Selenide.closeWebDriver;
 
 public abstract class BaseTest {
+    private boolean addPageSource = Environment.ADD_PAGE_SOURCE;
+    private boolean addScreenshot = Environment.ADD_SCREENSHOT;
+    private boolean addBrowserLog = Environment.ADD_BROWSER_LOG;
+    private boolean addVideo = Environment.ADD_VIDEO;
 
     @BeforeEach
     void addListener() {
@@ -24,29 +29,35 @@ public abstract class BaseTest {
     static void setup() {
         TimeZone.setDefault(TimeZone.getTimeZone("Europe/Moscow"));
 
-        Configuration.browserSize = "1920x1080";
+        Configuration.baseUrl = Environment.URL_APP;
+        Configuration.headless = Environment.HEADLESS;
+        Configuration.browser = Environment.BROWSER;
+        Configuration.browserVersion = Environment.BROWSER_VERSION;
+        Configuration.browserSize = Environment.BROWSER_SIZE;
         Configuration.pageLoadStrategy = "eager";
-        Configuration.browser = "chrome";
-        Configuration.browserVersion = "157.0";
         Configuration.timeout = 15000;
 
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--disable-dev-shm-usage", "--no-sandbox");
-        chromeOptions.setCapability("se:cdpEnabled", false);
-        chromeOptions.setCapability("selenoid:options", Map.of(
-                "enableVNC", true,
-                "enableVideo", true
-        ));
-        Configuration.browserCapabilities = chromeOptions;
-        Configuration.remote = "https://user1:1234@selenoid.qa.guru/wd/hub";
+        if (Environment.IS_REMOTE) {
+            Configuration.remote = Environment.REMOTE_URL;
+
+            if (Environment.ADD_VIDEO) {
+                MutableCapabilities options = new MutableCapabilities();
+                options.setCapability("se:cdpEnabled", false);
+                options.setCapability("selenoid:options", Map.of(
+                        "enableVNC", true,
+                        "enableVideo", true
+                ));
+                Configuration.browserCapabilities = options;
+            }
+        }
     }
 
     @AfterEach
     void addAttachments() {
-        Attach.takeSreenshot("Last screenshot");
-        Attach.pageSource();
-        Attach.browserConsoleLogs();
-        Attach.addVideo();
+        if (addScreenshot) Attach.takeSreenshot("Last screenshot");
+        if (addPageSource) Attach.pageSource();
+        if (addBrowserLog) Attach.browserConsoleLogs();
+        if (Environment.IS_REMOTE && addVideo) Attach.addVideo();
 
         closeWebDriver();
     }

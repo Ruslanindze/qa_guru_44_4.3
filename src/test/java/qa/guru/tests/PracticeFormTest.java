@@ -17,7 +17,6 @@ import static qa.guru.helpers.CustomConditions.valid;
 
 @Story("Registration form")
 public class PracticeFormTest extends BaseTest {
-    private final Environment env = Environment.DEMOQA;
     private final PracticeFormPage practiceFormPage = new PracticeFormPage();
 
     // ---------- Позитивные тесты
@@ -31,7 +30,7 @@ public class PracticeFormTest extends BaseTest {
         // When
         step("Open registration page", () -> {
             practiceFormPage
-                    .openPage(env);
+                    .openPage(Environment.URL_APP);
         });
         step("Registration user", () -> {
             practiceFormPage
@@ -72,7 +71,7 @@ public class PracticeFormTest extends BaseTest {
 
         // When
         practiceFormPage
-                .openPage(env)
+                .openPage(Environment.URL_APP)
                 .registerAs(userDto)
                 .submit();
 
@@ -95,7 +94,7 @@ public class PracticeFormTest extends BaseTest {
 
         // When
         practiceFormPage
-                .openPage(env)
+                .openPage(Environment.URL_APP)
                 .registerAs(userDto)
                 .submit();
 
@@ -127,7 +126,7 @@ public class PracticeFormTest extends BaseTest {
 
         // When
         practiceFormPage
-                .openPage(env)
+                .openPage(Environment.URL_APP)
                 .registerAs(userDto)
                 .submit();
 
@@ -159,7 +158,7 @@ public class PracticeFormTest extends BaseTest {
 
         // When
         practiceFormPage
-                .openPage(env)
+                .openPage(Environment.URL_APP)
                 .registerAs(userDto)
                 .submit();
 
@@ -190,7 +189,7 @@ public class PracticeFormTest extends BaseTest {
 
         // When
         practiceFormPage
-                .openPage(env)
+                .openPage(Environment.URL_APP)
                 .registerAs(userDto)
                 .submit();
 
@@ -222,7 +221,7 @@ public class PracticeFormTest extends BaseTest {
 
         // When
         practiceFormPage
-                .openPage(env)
+                .openPage(Environment.URL_APP)
                 .registerAs(userDto)
                 .submit();
 

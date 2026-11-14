@@ -5,7 +5,6 @@ import io.qameta.allure.Step;
 import lombok.Getter;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import qa.guru.config.Environment;
 import qa.guru.data.UserDto;
 import qa.guru.pages.components.CalendarComponent;
 import qa.guru.pages.components.ResultTableComponent;
@@ -41,9 +40,9 @@ public class PracticeFormPage {
 
     private final SelenideElement buttonSubmit = $("button#submit");
 
-    @Step("Open registration page {env}" + PAGE_URL)
-    public PracticeFormPage openPage(Environment env) {
-        open(env.getBaseUrl() + PAGE_URL);
+    @Step("Open registration page {baseUrl}" + PAGE_URL)
+    public PracticeFormPage openPage(String baseUrl) {
+        open(baseUrl + PAGE_URL);
         executeJavaScript("document.querySelectorAll('#fixedban, footer, iframe').forEach(function(el){el.remove();});");
         return this;
     }

@@ -21,7 +21,6 @@ import static qa.guru.helpers.CustomConditions.invalid;
 
 
 public class ReservePracticeFormTest extends BaseTest {
-    private final Environment env = Environment.QA_GURU;
     private final ReservePracticeFormPage reservePracticeFormPage = new ReservePracticeFormPage();
 
     // ---------- Позитивные тесты
@@ -33,7 +32,7 @@ public class ReservePracticeFormTest extends BaseTest {
 
         // When
         reservePracticeFormPage
-                .openPage(env)
+                .openPage(Environment.URL_APP)
                 .registerAs(userDto)
                 .submit();
 
@@ -57,7 +56,7 @@ public class ReservePracticeFormTest extends BaseTest {
         // When
         // Заполнение обязательных полей
         reservePracticeFormPage
-                .openPage(env)
+                .openPage(Environment.URL_APP)
                 .registerAs(userDto);
         // Перезатираем поле и подтверждаем
         SelenideElement field = fieldProvider.apply(reservePracticeFormPage);

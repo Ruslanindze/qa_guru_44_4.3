@@ -3,7 +3,6 @@ package qa.guru.pages;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 import lombok.Getter;
-import qa.guru.config.Environment;
 import qa.guru.data.UserTextBoxRecord;
 
 import static com.codeborne.selenide.Selenide.$;
@@ -26,9 +25,9 @@ public class ReserveTextBoxPage {
     private final SelenideElement outputCurrentAddress = outputBlock.$("#currentAddress");
     private final SelenideElement outputPermanentAddress = outputBlock.$("#permanentAddress");
 
-    @Step("Open registration page {env}" + PAGE_URL)
-    public ReserveTextBoxPage openPage(Environment env) {
-        open(env.getBaseUrl() + PAGE_URL);
+    @Step("Open registration page {baseUrl}" + PAGE_URL)
+    public ReserveTextBoxPage openPage(String baseUrl) {
+        open(baseUrl + PAGE_URL);
         return this;
     }
 

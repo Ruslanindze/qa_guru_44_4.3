@@ -5,7 +5,6 @@ import com.codeborne.selenide.WebDriverRunner;
 import io.qameta.allure.Step;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
-import qa.guru.config.Environment;
 import qa.guru.data.UserDto;
 import qa.guru.pages.components.ResultTableComponent;
 
@@ -24,9 +23,9 @@ public class ReservePracticeFormPage {
     private final SelenideElement buttonSubmit = $("button#submit");
     private final ResultTableComponent resultTableComponent = new ResultTableComponent("#resultModal");
 
-    @Step("Open registration page {env}" + PAGE_URL)
-    public ReservePracticeFormPage openPage(Environment env) {
-        open(env.getBaseUrl() + PAGE_URL);
+    @Step("Open registration page {baseUrl}" + PAGE_URL)
+    public ReservePracticeFormPage openPage(String baseUrl) {
+        open(baseUrl + PAGE_URL);
         executeJavaScript("$('#fixedban').remove();");
         WebDriverRunner.getWebDriver().manage().window().maximize();
 

@@ -1,6 +1,8 @@
 package qa.guru.helpers;
 
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.aeonbits.owner.ConfigFactory;
@@ -10,7 +12,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.MutableCapabilities;
 import qa.guru.config.TestConfig;
 
-import java.awt.*;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -36,14 +37,6 @@ public abstract class BaseTest {
         Configuration.timeout = 15000;
         Configuration.remote = testConfig.urlRemote();
 
-        // Если full, то на весь экран любого размера
-        if (testConfig.browserSize().equalsIgnoreCase("full")) {
-            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            Configuration.browserSize = screenSize.width + "x" + screenSize.height;
-        } else {
-            Configuration.browserSize = testConfig.browserSize();
-        }
-
         // Добавление записи видео
         if (testConfig.addVideo()) {
             MutableCapabilities options = new MutableCapabilities();
@@ -53,6 +46,17 @@ public abstract class BaseTest {
                     "enableVideo", true
             ));
             Configuration.browserCapabilities = options;
+        }
+    }
+
+    @BeforeEach
+    void setupTest() {
+        // Если full, то на весь экран любого размера
+        if ("FULL".equalsIgnoreCase(testConfig.browserSize())) {
+            Selenide.open();
+            WebDriverRunner.getWebDriver().manage().window().maximize();
+        } else {
+            Configuration.browserSize = testConfig.browserSize();
         }
     }
 

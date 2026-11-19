@@ -8,25 +8,28 @@ import org.aeonbits.owner.Config;
         "system:env",        // 2. Затем ищет переменные окружения (для запуска из Jenkins)
         "classpath:config.properties" // 3. Если ничего не задано, берет значения по умолчанию из файла
 })
-
 public interface TestConfig extends Config {
-    @Config.Key("URL_APP")
-    @Config.DefaultValue("https://demoqa.com")
+    @Key("URL_APP")
+    @DefaultValue("https://demoqa.com")
     String urlApp();
 
-    @Config.Key("URL_REMOTE")
+    @Key("IS_REMOTE")
+    @DefaultValue("true")
+    Boolean isRemote();
+
+    @Key("URL_REMOTE")
     String urlRemote();
 
-    @Config.Key("BROWSER")
-    @Config.DefaultValue("chrome")
+    @Key("BROWSER")
+    @DefaultValue("chrome")
     String browser();
 
-    @Config.Key("BROWSER_VERSION")
-    @Config.DefaultValue("latest")
+    @Key("BROWSER_VERSION")
+    @DefaultValue("latest")
     String browserVersion();
 
-    @Config.Key("BROWSER_SIZE")
-    @Config.DefaultValue("FULL")
+    @Key("BROWSER_SIZE")
+    @DefaultValue("FULL")
     String browserSize();
 
     @Key("HEADLESS")
